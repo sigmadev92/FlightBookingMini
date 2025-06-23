@@ -7,6 +7,8 @@ import path from "path";
 import { APP_PORT } from "./src/config/env.js";
 import { connectUsigMongoose } from "./src/config/mongoose.js";
 import logger from "./src/middlewares/logger.js";
+import webRoutes from "./src/routes/web.js";
+import apiRoutes from "./src/routes/api.js";
 const server = express();
 
 const PORT = APP_PORT || 5000;
@@ -31,6 +33,8 @@ server.set("view engine", "ejs");
 server.set("views", path.join(path.resolve(), "src", "views"));
 server.use(expressEjsLayouts);
 
+server.use("/web", webRoutes);
+server.use("/api", apiRoutes);
 server.get("/", logger, (req, res) => {
   return res.render("home");
 });

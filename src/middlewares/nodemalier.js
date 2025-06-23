@@ -14,7 +14,7 @@ export async function sendtheMail(params) {
     from: HOST_MAIL,
     to: params.receiver,
     subject: params.subject,
-    html: params.content,
+    html: params.html,
   };
 
   //Step-3 Send a mail

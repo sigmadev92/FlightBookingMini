@@ -6,9 +6,15 @@ import { CustomError } from "../../middlewares/errorHandler.js";
 import bcrypt from "bcrypt";
 export default class UserRepository {
   async signupRepo(_userdata) {
-    const newUser = new UserModel(_userdata);
-    await newUser.save();
-    return newUser;
+    try {
+      const newUser = new UserModel(_userdata);
+      await newUser.save();
+      const userObject = newUser.toObject();
+      delete userObject.password;
+      return userObject;
+    } catch (error) {
+      throw new CustomError(400, error.message);
+    }
   }
 
   async loginRepo(_userdata) {
@@ -29,8 +35,13 @@ export default class UserRepository {
   }
 
   async updateProfileRepo(_userID, _updateData) {
-    const result = await UserModel.updateOne({ _id: _userID }, _updateData);
-    console.log(result);
+    const result = await UserModel.findByIdAndUpdate(_userID, _updateData, {
+      new: true,
+      runValidators: true,
+    }).select("-password");
+    if (!result) {
+      throw new CustomError(400, "User not found");
+    }
     return result;
   }
 }

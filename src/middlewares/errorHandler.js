@@ -5,9 +5,11 @@ export class CustomError extends Error {
   }
 }
 
-export function handleError(err, req, res, next) {
-  if (err instanceof customError) {
+export const handleError = (err, req, res, next) => {
+  console.log("ERROR CAME HERE TOO");
+  if (err instanceof CustomError) {
     return res.status(err.statusCode).send(err.message);
   }
+
   return res.status(400).send(err.message);
-}
+};

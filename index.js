@@ -9,6 +9,8 @@ import { connectUsigMongoose } from "./src/config/mongoose.js";
 import logger from "./src/middlewares/logger.js";
 import webRoutes from "./src/routes/web.js";
 import apiRoutes from "./src/routes/api.js";
+import undefinedRoute from "./src/middlewares/route404.js";
+import { handleError } from "./src/middlewares/errorHandler.js";
 const server = express();
 
 const PORT = APP_PORT || 5000;
@@ -32,13 +34,18 @@ server.use(express.static("public"));
 server.set("view engine", "ejs");
 server.set("views", path.join(path.resolve(), "src", "views"));
 server.use(expressEjsLayouts);
+server.use(logger);
 
 server.use("/web", webRoutes);
 server.use("/api", apiRoutes);
-server.get("/", logger, (req, res) => {
+
+server.get("/", (req, res) => {
   return res.render("home");
 });
 
+server.use(undefinedRoute);
+
+server.use(handleError);
 server.listen(PORT, () => {
   connectUsigMongoose();
   console.log(`Server running on https://localhost:${PORT}`);

@@ -4,4 +4,7 @@ dotenv.config();
 
 const APP_PORT = process.env.PORT;
 const MONGODB_URL = process.env.MONGODB_URL;
-export { APP_PORT, MONGODB_URL };
+const JWT_SECRET = process.env.JWT_SECRET;
+const HOST_MAIL = process.env.USER_MAIL;
+const HOST_PASS = process.env.USER_PASS;
+export { APP_PORT, MONGODB_URL, JWT_SECRET, HOST_MAIL, HOST_PASS };

@@ -17,6 +17,6 @@ export default function logger(req, res, next) {
   } on ${new Date()} ${show} \n\n`;
 
   fs.appendFileSync("logger.log", logLine);
-
+  res.locals.fontawesomeLink = "https://kit.fontawesome.com/9f2b3f81ef.js";
   next();
 }

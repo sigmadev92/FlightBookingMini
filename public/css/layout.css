@@ -1,0 +1,110 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  background-color: azure;
+  padding: 1rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+#text {
+  position: relative;
+}
+.h-1 {
+  color: rgb(43, 46, 226);
+  text-decoration: underline 1px red;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+.h-2 {
+  color: rgb(236, 100, 21);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.custom.fa-plane-departure {
+  position: absolute;
+  top: 0;
+  right: -2rem;
+  transform: scale(1.5);
+}
+
+ul#nav {
+  display: flex;
+  gap: 0.3rem;
+  list-style-type: none;
+  font-size: 12px;
+}
+
+.header-link {
+  color: black;
+  border: none;
+  padding: 0.3rem 0.5rem;
+  text-decoration: none;
+  border-radius: 0.2rem;
+}
+.header-link:hover {
+  background-color: rgba(16, 15, 16, 0.748);
+  color: white;
+}
+
+main {
+  margin-top: calc(40px + 2rem);
+  height: 90vh;
+}
+section#home .hero {
+  background-image: url("https://img-cdn.publive.online/fit-in/1200x675/filters:format(webp)/entrackr/media/post_attachments/wp-content/uploads/2024/09/codingninjas.png");
+  height: 70vw;
+  max-height: 90vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.801);
+  height: 100%;
+  border-radius: 100% 0 0 100%;
+  position: absolute;
+  right: 0;
+  width: 65%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+section#home #box {
+  border-radius: 0.3rem;
+  text-align: center;
+  width: 60%;
+  max-width: 450px;
+  box-shadow: 0 0 2px rgb(32, 31, 31);
+  padding: 1rem;
+
+  color: white;
+}
+section#home #box h2 {
+  font-size: clamp(1rem, 2.5vw, 4rem);
+  margin-bottom: 1rem;
+}
+section#home #box h3 {
+  font-weight: 400;
+  margin-bottom: 1rem;
+  font-size: clamp(12px, 2.5vw, 1rem);
+}
+#cn-link {
+  text-decoration: none;
+  color: orangered;
+  background-color: black;
+  font-size: 1rem;
+}

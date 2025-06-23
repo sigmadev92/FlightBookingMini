@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AirNinja</title>
+    <script src="<%=locals.fontawesomeLink%>" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/layout.css" />
+  </head>
+  <body>
+    <header>
+      <div id="info">
+        <div id="logo"></div>
+        <div id="text">
+          <h1 draggable="false">
+            <span class="h-1">Air</span><span class="h-2">Ninja</span>
+          </h1>
+          <i class="fa-solid fa-plane-departure custom"></i>
+        </div>
+      </div>
+      <nav>
+        <ul id="nav">
+          <li><a href="/" class="header-link">Home</a></li>
+          <li><a href="/offers" class="header-link">Offers</a></li>
+          <%if(locals.loggedIn){%>
+          <li><a href="/dashboard" class="header-link">Dashboard</a></li>
+          <li><a href="/profile" class="header-link">Profile</a></li>
+          <li><a href="/logout" class="header-link">Logout</a></li>
+          <%}else{%>
+          <li><a href="/login" class="header-link">Login</a></li>
+          <%}%>
+        </ul>
+      </nav>
+    </header>
+    <main><%- body%></main>
+    <footer></footer>
+    <script>
+      console.log(document.getElementsByTagName("script")[0].src);
+      document.getElementById("hide-info").style.display = "none";
+    </script>
+  </body>
+</html>

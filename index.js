@@ -1,19 +1,40 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import expressEjsLayouts from "express-ejs-layouts";
 import bodyparser from "body-parser";
+import session from "express-session";
+import path from "path";
 import { APP_PORT } from "./src/config/env.js";
 import { connectUsigMongoose } from "./src/config/mongoose.js";
 import logger from "./src/middlewares/logger.js";
 const server = express();
 
 const PORT = APP_PORT || 5000;
+
+server.use(
+  session({
+    secret: "flightbooking-mvc",
+    saveUninitialized: false,
+    resave: false,
+    cookie: { secure: false },
+  })
+);
 server.use(cookieParser());
+
+// for parsing req.body
+// 1. Via JSON
 server.use(express.json());
 server.use(bodyparser.urlencoded());
 
+server.use(express.static("public"));
+server.set("view engine", "ejs");
+server.set("views", path.join(path.resolve(), "src", "views"));
+server.use(expressEjsLayouts);
+
 server.get("/", logger, (req, res) => {
-  return res.status(200).send("WORKING FINE");
+  return res.render("home");
 });
+
 server.listen(PORT, () => {
   connectUsigMongoose();
   console.log(`Server running on https://localhost:${PORT}`);

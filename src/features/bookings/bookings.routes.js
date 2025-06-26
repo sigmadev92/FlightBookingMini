@@ -1,11 +1,12 @@
 import { Router } from "express";
 import BookingController from "./bookings.controller.js";
+import { protectSensitive } from "../../middlewares/jwtAuth.js";
 const bookingRoutes = Router();
 const bookingController = new BookingController();
 bookingRoutes.get("/", (req, res) => {
   res.send("/api/bookings/");
 });
-
+bookingRoutes.use(protectSensitive);
 bookingRoutes.post("/", (req, res, next) => {
   bookingController.createNewBooking(req, res, next);
 });

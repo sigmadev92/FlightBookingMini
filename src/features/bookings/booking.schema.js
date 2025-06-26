@@ -13,12 +13,11 @@ const bookingSchema = new mongoose.Schema(
     },
     bookingStatus: {
       type: String,
-      enum: ["Confirmed", "Cancelled", "Pending"],
-      default: "Confirmed",
+      enum: ["Confirmed", "Cancelled", "Pending", "initialized", "on-going"],
+      default: "initialized",
     },
     totalAmount: {
       type: Number,
-      required: true,
     },
 
     paymentStatus: {
@@ -26,11 +25,11 @@ const bookingSchema = new mongoose.Schema(
       enum: ["Paid", "Unpaid", "Refunded"],
       default: "Unpaid",
     },
+
     passengers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Passenger",
-        required: true,
         unique: true,
       },
     ],

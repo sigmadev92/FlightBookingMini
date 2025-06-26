@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AirNinja</title>
     <script src="<%=locals.fontawesomeLink%>" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/css/layout.css" />
   </head>
   <body>
@@ -20,21 +21,118 @@
       </div>
       <nav>
         <ul id="nav">
-          <li><a href="/" class="header-link">Home</a></li>
-          <li><a href="/offers" class="header-link">Offers</a></li>
+          <li><a href="/" class="header-link" id="hl-/">Home</a></li>
+          <li>
+            <a href="/web/offers" class="header-link" id="hl-/offers">Offers</a>
+          </li>
+          <li>
+            <a href="/web/faqs" class="header-link" id="hl-/faqs">FAQs</a>
+          </li>
           <%if(locals.loggedIn){%>
-          <li><a href="/dashboard" class="header-link">Dashboard</a></li>
-          <li><a href="/profile" class="header-link">Profile</a></li>
+          <li>
+            <a
+              href="/web/users/dashboard"
+              class="header-link"
+              id="hl-/dashboard"
+              >Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="/web/users/profile" class="header-link" id="hl-/profile"
+              >Profile</a
+            >
+          </li>
           <li><a href="/logout" class="header-link">Logout</a></li>
           <%}else{%>
-          <li><a href="/login" class="header-link">Login</a></li>
+          <li>
+            <a href="/web/users/login" class="header-link" id="hl-/login"
+              >Login</a
+            >
+          </li>
           <%}%>
         </ul>
       </nav>
     </header>
     <main><%- body%></main>
     <footer></footer>
+    <div id="fixed-links">
+      <ul id="bottom">
+        <li>
+          <a href="/" class="fixed-link" id="fl-/"
+            ><i class="fa-solid fa-house-user"></i
+          ></a>
+        </li>
+        <li>
+          <a href="/web/offers" class="fixed-link" id="fl-/offers"
+            ><i class="fa-solid fa-gifts"></i
+          ></a>
+        </li>
+        <li>
+          <a href="/web/faqs" class="fixed-link" id="fl-/faqs"
+            ><i class="fa-solid fa-circle-info"></i
+          ></a>
+        </li>
+        <%if(locals.loggedIn){%>
+        <li>
+          <a href="/web/users/dashboard" class="fixed-link" id="fl-/dashboard"
+            ><i class="fa-solid fa-shield"></i
+          ></a>
+        </li>
+        <li>
+          <a href="/web/users/profile" class="fixed-link" id="fl-/profile"
+            ><i class="fa-solid fa-user"></i
+          ></a>
+        </li>
+        <li>
+          <a href="/logout" class="fixed-link"
+            ><i class="fa-solid fa-right-from-bracket"></i
+          ></a>
+        </li>
+        <%}else{%>
+        <li>
+          <a href="/web/users/login" class="fixed-link" id="fl-/login"
+            ><i class="fa-solid fa-arrow-right-to-bracket"></i
+          ></a>
+        </li>
+        <%}%>
+      </ul>
+    </div>
     <script>
+      let arr = location.pathname.split("/");
+      let len = arr.length;
+      let prefix, currentActiveHeaderLink;
+      if (arr[len - 1] === "register") {
+        arr[len - 1] = "login";
+      }
+      if (window.innerWidth > 500) {
+        prefix = "hl-/";
+        currentActiveHeaderLink = prefix + arr[len - 1];
+        document
+          .getElementById(currentActiveHeaderLink)
+          .classList.add("current");
+      } else {
+        prefix = "fl-/";
+        currentActiveHeaderLink = prefix + arr[len - 1];
+        document.getElementById(
+          currentActiveHeaderLink
+        ).parentElement.style.backgroundColor = "white";
+      }
+
+      window.addEventListener("resize", (e) => {
+        if (window.innerWidth <= 500) {
+          prefix = "fl-/";
+          currentActiveHeaderLink = prefix + arr[len - 1];
+          document.getElementById(
+            currentActiveHeaderLink
+          ).parentElement.style.backgroundColor = "white";
+        } else {
+          prefix = "hl-/";
+          currentActiveHeaderLink = prefix + arr[len - 1];
+          document
+            .getElementById(currentActiveHeaderLink)
+            .classList.add("current");
+        }
+      });
       console.log(document.getElementsByTagName("script")[0].src);
       document.getElementById("hide-info").style.display = "none";
     </script>

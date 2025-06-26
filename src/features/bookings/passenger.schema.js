@@ -15,6 +15,15 @@ const passengerSchema = new mongoose.Schema({
     required: true,
     enum: ["male", "female"],
   },
+  seat: {
+    type: String,
+    enum: ["first", "economy", "business", "premiumEconomy"],
+    default: ["economy"],
+  },
+  price: {
+    required: true,
+    type: Number,
+  },
   dateOfBirth: {
     type: Date,
     required: true,

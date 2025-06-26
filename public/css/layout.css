@@ -43,12 +43,22 @@ ul#nav {
   font-size: 12px;
 }
 
-.header-link {
+.header-link,
+.fixed-link {
   color: black;
   border: none;
   padding: 0.3rem 0.5rem;
   text-decoration: none;
   border-radius: 0.2rem;
+}
+.current {
+  border-bottom: 2px solid purple;
+}
+.current-icon {
+  background-color: white;
+}
+#hide-info {
+  display: none;
 }
 .header-link:hover {
   background-color: rgba(16, 15, 16, 0.748);
@@ -107,4 +117,46 @@ section#home #box h3 {
   color: orangered;
   background-color: black;
   font-size: 1rem;
+}
+#fixed-links {
+  position: fixed;
+  bottom: 0.5rem;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(33, 174, 206);
+  box-sizing: border-box;
+  display: none;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem black;
+}
+
+ul#bottom {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0.5rem;
+  align-items: center;
+  gap: 0.4rem;
+}
+ul#bottom > li {
+  padding: 0.4rem 0;
+  border: 1px solid black;
+  font-size: 20px;
+}
+ul#bottom > li:hover {
+  background-color: aliceblue;
+}
+
+@media screen and (max-width: 500px) {
+  header {
+    justify-content: center;
+  }
+  header > nav {
+    display: none;
+  }
+  #fixed-links {
+    display: block;
+  }
 }

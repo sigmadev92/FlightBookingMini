@@ -33,7 +33,7 @@ export default class UserController {
     try {
       const response = await this.UserRepository.loginRepo(req.body);
       const token = jwt.sign({ userID: response._id }, JWT_SECRET);
-      res.cookie(air_ninjaToken, token);
+      res.cookie("air_ninjaToken", token);
       return res.status(200).send({
         success: true,
         message: "Logged In successfully",
@@ -66,5 +66,10 @@ export default class UserController {
 
   updatePassword = async (req, res, next) => {};
 
-  logoutUser = (req, res, next) => {};
+  logoutUser = (req, res, next) => {
+    res
+      .clearCookie("air_ninjaToken")
+      .status(200)
+      .send("User logged out successfully");
+  };
 }

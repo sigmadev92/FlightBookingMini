@@ -11,6 +11,7 @@ import webRoutes from "./src/routes/web.js";
 import apiRoutes from "./src/routes/api.js";
 import undefinedRoute from "./src/middlewares/route404.js";
 import { handleError } from "./src/middlewares/errorHandler.js";
+import authentication from "./src/middlewares/jwtAuth.js";
 const server = express();
 
 const PORT = APP_PORT || 5000;
@@ -24,7 +25,7 @@ server.use(
   })
 );
 server.use(cookieParser());
-
+server.use(authentication);
 // for parsing req.body
 // 1. Via JSON
 server.use(express.json());

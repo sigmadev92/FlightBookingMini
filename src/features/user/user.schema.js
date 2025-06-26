@@ -38,6 +38,23 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: ["male", "female", "other", "hide"],
     },
+    passportNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    passportExpiry: {
+      type: Date,
+      required: true,
+    },
+    passportIssuingCountry: {
+      type: String,
+      required: true,
+    },
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
   },
   { timestamps: true }
 );

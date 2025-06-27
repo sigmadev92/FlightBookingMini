@@ -1,10 +1,24 @@
 import mongoose from "mongoose";
 
 const flightSchema = new mongoose.Schema({
+  isFirst: {
+    type: Boolean,
+    required: true,
+  },
+  returningFlight: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Flight",
+
+    unique: [true, "The returning Flight ID must be unique"],
+    sparse: true,
+    required: function () {
+      return !this.isFirst;
+    },
+  },
   flightNumber: {
     type: String,
     required: true,
-    unique: true,
+    unique: [true, "The flight number must be unique."],
     trim: true,
   },
   airline: {
@@ -78,3 +92,10 @@ const flightSchema = new mongoose.Schema({
 const FlightModel = mongoose.model("Flight", flightSchema);
 
 export default FlightModel;
+
+/*
+"airline":"Lufthansa"
+"flightNumber": "LU101",
+""
+
+*/

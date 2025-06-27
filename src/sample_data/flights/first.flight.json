@@ -1,0 +1,24 @@
+{
+  "isFirst": true,
+  "flightNumber": "AI203",
+  "airline": "Air India",
+  "origin": "DEL",
+  "destination": "LHR",
+  "range": 6700,
+  "durationMinutes": 540,
+  "daysOfOperation": ["Monday", "Wednesday", "Friday"],
+  "seatCapacity": {
+    "economy": 180,
+    "premiumEconomy": 30,
+    "business": 20,
+    "first": 10
+  },
+  "price": {
+    "economy": 500,
+    "premiumEconomy": 800,
+    "business": 1200,
+    "first": 2000
+  },
+  "status": "Scheduled",
+  "category": "direct"
+}

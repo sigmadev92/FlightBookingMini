@@ -69,6 +69,12 @@ main {
   margin-top: calc(40px + 2rem);
   height: 90vh;
 }
+main > section {
+  padding: 1rem;
+}
+section#home {
+  padding: 0;
+}
 section#home .hero {
   background-image: url("https://img-cdn.publive.online/fit-in/1200x675/filters:format(webp)/entrackr/media/post_attachments/wp-content/uploads/2024/09/codingninjas.png");
   height: 70vw;
@@ -124,12 +130,11 @@ section#home #box h3 {
   width: 90%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgb(33, 174, 206);
+  background-color: transparent;
   box-sizing: border-box;
   display: none;
   padding: 0.3rem;
   border-radius: 0.5rem;
-  box-shadow: 0 0 1rem black;
 }
 
 ul#bottom {

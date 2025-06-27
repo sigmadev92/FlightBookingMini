@@ -1,3 +1,44 @@
-<div id="hide-info">this info is hidden</div>
+<div id="hide-info">
+  <span id="style">forms</span>
+</div>
 
-<section id="login">Login page</section>
+<section id="login-page">
+  <div class="form-container">
+    <div class="form-header">
+      <h3>User Login</h3>
+    </div>
+    <form class="form-body" method="post" action="/web/users/login">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="write you email" />
+      </div>
+      <div class="form-field pswrd-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="write you password" />
+        <i class="fa-solid fa-lock" id="lock"></i>
+      </div>
+      <button class="btn btn-submit">Login</button>
+    </form>
+    <div class="form-footer">
+      <p>
+        Doesn't have an account?<a href="/web/users/register" class="ff-link"
+          >Register</a
+        >
+      </p>
+      <a href="/" class="ff-link f-pswrd">Forgot Password</a>
+    </div>
+  </div>
+</section>
+<script>
+  const lock = document.getElementById("lock");
+  const passwordField = document.getElementById("password");
+  lock.addEventListener("click", () => {
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      lock.classList.replace("fa-lock", "fa-lock-open");
+    } else {
+      passwordField.type = "password";
+      lock.classList.replace("fa-lock-open", "fa-lock");
+    }
+  });
+</script>

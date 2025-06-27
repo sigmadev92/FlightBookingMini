@@ -7,6 +7,7 @@
     <script src="<%=locals.fontawesomeLink%>" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
   </head>
   <body>
     <header>
@@ -115,7 +116,7 @@
         currentActiveHeaderLink = prefix + arr[len - 1];
         document.getElementById(
           currentActiveHeaderLink
-        ).parentElement.style.backgroundColor = "white";
+        ).parentElement.style.backgroundColor = "rgb(220,0,220)";
       }
 
       window.addEventListener("resize", (e) => {
@@ -124,7 +125,7 @@
           currentActiveHeaderLink = prefix + arr[len - 1];
           document.getElementById(
             currentActiveHeaderLink
-          ).parentElement.style.backgroundColor = "white";
+          ).parentElement.style.backgroundColor = "rgb(220,0,220)";
         } else {
           prefix = "hl-/";
           currentActiveHeaderLink = prefix + arr[len - 1];

@@ -10,18 +10,31 @@ export default class UserController {
 
   register = async (req, res, next) => {
     try {
-      const { email, password, name } = req.body;
+      const { email, password, name, role, testMail } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
       req.body.password = hashedPassword;
       const response = await this.UserRepository.signupRepo(req.body);
-      await sendtheMail({
-        receiver: email,
-        subject: "User Registration Successful",
-        html: `<b>Dear ${name}</b> <p>You are successfully registered with our website AirNinja-Flight Booking app powered by Coding Ninjas. We are waiting for you to checkout our services.</p> <b>Thank you</b>`,
-      });
+      if (!testMail) {
+        if (role === "user") {
+          sendtheMail({
+            receiver: email,
+            subject: "User Registration Successful",
+            html: `<b>Dear ${
+              name.split(" ")[0]
+            }</b> <p>You are successfully registered with our website AirNinja-Flight Booking app powered by Coding Ninjas. We are waiting for you to checkout our services.</p> <b>Thank you</b>`,
+          });
+        } else {
+          sendtheMail({
+            receiver: email,
+            subject: "Admin Registration Successful",
+            html: `<b>Dear ${name}</b> <p>You are successfully registered as an <b style="color:blue;">ADMIN</b> with our website AirNinja-Flight Booking app powered by Coding Ninjas. We are waiting for you to checkout our services.</p> <b>Thank you</b>`,
+          });
+        }
+      }
+
       return res.status(201).send({
         success: true,
-        message: "User Registration Successful",
+        message: `${role} Registration Successful`,
         user: response,
       });
     } catch (error) {
@@ -32,7 +45,14 @@ export default class UserController {
   login = async (req, res, next) => {
     try {
       const response = await this.UserRepository.loginRepo(req.body);
-      const token = jwt.sign({ userID: response._id }, JWT_SECRET);
+      const token = jwt.sign(
+        {
+          userID: response._id,
+          testUser: response.testMail,
+          userRole: response.role,
+        },
+        JWT_SECRET
+      );
       res.cookie("air_ninjaToken", token);
       return res.status(200).send({
         success: true,

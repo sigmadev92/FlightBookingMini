@@ -1,25 +1,41 @@
 import FlightRepository from "./flight.repository.js";
 import { CustomError } from "../../middlewares/errorHandler.js";
+
+import { sendtheMail } from "../../middlewares/nodemalier.js";
+import mailOnCreatingFlight from "../../sample_data/mails/newFlightjs.js";
 export default class FlightController {
   constructor() {
     this.flightRepository = new FlightRepository();
   }
   async createFlight(req, res, next) {
     try {
-      if (req.userType === "user") {
+      if (req.userData.role === "user") {
         throw new CustomError(400, "You are not allowed to create Flights");
       }
       const data = req.body;
-      data.createdBy = req.userID;
+      data.createdBy = req.userData.userID;
       const response = await this.flightRepository.createFlightRepo(data);
       if (response.success) {
+        if (!req.userData.testUser) {
+          sendtheMail({
+            receiver: admin.email,
+            subject: "Flight Listed Successfully",
+            html: mailOnCreatingFlight,
+          });
+        }
+
         return res.status(201).send({
           success: true,
-          message: "Flight Created successfully",
+          message: response.message,
           flight: response.flight,
         });
+      } else {
+        return res
+          .status(response.error.statusCode)
+          .send({ success: false, message: response.error.message });
       }
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }

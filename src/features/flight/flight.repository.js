@@ -5,14 +5,31 @@ export default class FlightRepository {
     try {
       const newFlight = new FlightModel(_newData);
       await newFlight.save();
+      if (!newFlight.isFirst) {
+        //means we have just created a returning flight
+        const firstFlight = await FlightModel.findOneAndUpdate(
+          { _id: newFlight.returningFlight },
+          { returningFlight: newFlight._id }
+        );
+        await firstFlight.save();
+      }
       return {
         success: true,
+        message: `${
+          newFlight.isFirst ? "" : "Returning"
+        } Flight created successfully.`,
         flight: newFlight,
       };
     } catch (error) {
+      console.log(error.name);
+      console.log(error);
+      console.log(_newData);
       return {
         success: false,
-        message: error.message,
+        error: {
+          statusCode: error.name === "MongooseError" ? 400 : 500,
+          message: error.message,
+        },
       };
     }
   }

@@ -1,0 +1,9 @@
+{
+  "name": "Rishika Admin",
+  "email": "rishika@gmail.com",
+  "password": "Rishika@1234",
+  "profilePicture": "https://www.w3schools.com/howto/img_avatar.png",
+  "role": "admin",
+  "testMail": true,
+  "gender": "female"
+}

@@ -1,0 +1,77 @@
+.form-container {
+  max-width: 400px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 0.3rem;
+  box-shadow: 0 0 2px black;
+}
+
+.form-header {
+  background-color: black;
+  color: white;
+  padding: 1rem;
+}
+.form-body {
+  padding: 1rem;
+  box-sizing: border-box;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.pswrd-field {
+  position: relative;
+}
+.pswrd-field > .fa-solid {
+  position: absolute;
+  right: 1rem;
+  top: 60%;
+  cursor: pointer;
+}
+.pswrd-field > .fa-solid:hover {
+  color: blueviolet;
+}
+
+input {
+  padding: 0.5rem;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  display: block;
+  margin: auto;
+  font-size: 1rem;
+  border-radius: 0.3rem;
+}
+
+.btn-submit {
+  background-color: rgb(22, 11, 13);
+  color: white;
+}
+.btn-submit:hover {
+  background-color: blueviolet;
+}
+.form-footer {
+  padding: 1rem;
+  font-weight: bold;
+  border-top: 1px solid;
+}
+
+.ff-link {
+  text-decoration: none;
+  color: black;
+}
+.f-pswrd {
+  color: red;
+}
+
+.ff-link:hover {
+  text-decoration: 2px underline solid red;
+}

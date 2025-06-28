@@ -8,11 +8,21 @@ bookingRoutes.get("/", (req, res) => {
 });
 bookingRoutes.use(protectSensitive);
 bookingRoutes.post("/", (req, res, next) => {
-  bookingController.createNewBooking(req, res, next);
+  bookingController.initializeNewBooking(req, res, next);
+});
+bookingRoutes.post("/add-passenger", (req, res, next) => {
+  bookingController.addPassenger(req, res, next);
 });
 
 bookingRoutes.get("/:_id", (req, res, next) => {
   bookingController.getBookingInfo(req, res, next);
+});
+bookingRoutes.get("/:_id/totalCost", (req, res, next) => {
+  bookingController.findTotalCost(req, res, next);
+});
+
+bookingRoutes.post("/:_id/confirm-payment", (req, res, next) => {
+  bookingController.confirmPayment(req, res, next);
 });
 
 bookingRoutes.put("/:_id/cancel", (req, res, next) => {

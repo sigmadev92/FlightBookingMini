@@ -35,10 +35,19 @@ const passengerSchema = new mongoose.Schema({
   passportNumber: {
     required: true,
     type: String,
+    minlength: 6,
+    maxlength: 9,
   },
   passportExpiry: {
     type: Date,
     required: true,
+    validate: {
+      validator: function (val) {
+        return new Date() < val;
+      },
+      message:
+        "Your Passport expiry should be atleast 1 month more. You cannot proceed",
+    },
   },
   passportIssuingCountry: {
     type: String,

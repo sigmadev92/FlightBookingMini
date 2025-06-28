@@ -73,6 +73,15 @@ export default class BookingRepository {
         },
       };
     }
+    if (booking.totalAmount > 0) {
+      return {
+        success: false,
+        error: {
+          statusCode: 400,
+          message: "Total Cost Already calculated",
+        },
+      };
+    }
     const passengers = await booking.populate("passengers");
     booking.totalAmount = passengers.passengers
       .map((p) => p.price)
@@ -96,7 +105,7 @@ export default class BookingRepository {
       };
     }
 
-    if (booking.paymentStatus === "paid") {
+    if (booking.paymentStatus === "Paid") {
       return {
         success: false,
         error: {
@@ -126,32 +135,29 @@ export default class BookingRepository {
         },
       };
     }
-    booking.paymentStatus = "paid";
+    booking.paymentStatus = "Paid";
+    booking.bookingStatus = "Confirmed";
     await booking.save();
     return {
       success: true,
-      message: "",
+      message: "Payment done and Confirmed",
     };
-  }
-  async confirmBookingRepo(userId, _pnr) {
-    const booking = await BookingModel.findOne({ _id: _pnr, bookedBy: userId });
-    if (!booking) {
-      return {
-        success: false,
-        error: {
-          statusCode: 400,
-          msg: "No previous bookings / Check Your PNR number",
-        },
-      };
-    }
-
-    booking.bookingStatus = "Confirmed";
   }
 
   async getBookingInfoForUser(userId, _pnr) {
-    return await BookingModel.findOne({ _id: _pnr, bookedBy: userId }).populate(
-      "passengers"
-    );
+    const booking = await BookingModel.findOne({ _id: _pnr, bookedBy: userId })
+      .populate("passengers")
+      .populate("flightID");
+
+    if (!booking) {
+      return {
+        success: false,
+      };
+    }
+    return {
+      success: true,
+      booking,
+    };
   }
 
   async cancelBookingRepo(userId, _pnr) {
@@ -162,6 +168,18 @@ export default class BookingRepository {
         error: {
           statusCode: 400,
           msg: "No previous bookings / Check Your PNR number",
+        },
+      };
+    }
+    if (
+      booking.bookingStatus === "Cancelled" &&
+      booking.paymentStatus === "Refunded"
+    ) {
+      return {
+        success: false,
+        error: {
+          statusCode: 400,
+          msg: "Already cancelled",
         },
       };
     }

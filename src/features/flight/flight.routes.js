@@ -24,7 +24,7 @@ flightRoutes.put("/:_id", (req, res, next) => {
   flightController.updateFlight(req, res, next);
 });
 //delete a particular flight. Only a admin who created it can do.
-flightRoutes.delete("/:id", (req, res, next) => {
+flightRoutes.delete("/:_id", (req, res, next) => {
   flightController.deleteFlight(req, res, next);
 });
 export default flightRoutes;

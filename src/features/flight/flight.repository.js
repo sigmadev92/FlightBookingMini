@@ -104,10 +104,12 @@ export default class FlightRepository {
 
   async updateFlightRepo(_userId, _flightId, _data) {
     try {
-      const flight = await FlightModel.findOneAndUpdate(
-        { _id: _flightId, createdBy: _userId },
-        _data
-      );
+      const flight = await FlightModel.findOne({
+        _id: _flightId,
+        createdBy: _userId,
+      });
+      await flight.updateOne(_data);
+      await flight.save();
       if (!flight) {
         return {
           success: false,

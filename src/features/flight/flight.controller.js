@@ -76,7 +76,7 @@ export default class FlightController {
       throw new CustomError(400, "You are not allowed to update Flights");
     }
     const response = await this.flightRepository.updateFlightRepo(
-      req.userID,
+      req.userData.userID,
       req.params._id,
       req.body
     );
@@ -97,7 +97,7 @@ export default class FlightController {
       throw new CustomError(400, "You are not allowed to create Flights");
     }
     const response = await this.flightRepository.deleteFileRepo(
-      req.userID,
+      req.userData.userID,
       req.params._id
     );
     console.log(response);

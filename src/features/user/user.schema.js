@@ -50,6 +50,13 @@ const userSchema = new mongoose.Schema(
         unique: true,
       },
     ],
+    createdFlights: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Flight",
+        unique: true,
+      },
+    ],
   },
   { timestamps: true }
 );

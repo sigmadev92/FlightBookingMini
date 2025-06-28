@@ -29,7 +29,7 @@
           <li>
             <a href="/web/faqs" class="header-link" id="hl-/faqs">FAQs</a>
           </li>
-          <%if(locals.loggedIn){%>
+          <%if(locals.user){%>
           <li>
             <a
               href="/web/users/dashboard"
@@ -43,7 +43,7 @@
               >Profile</a
             >
           </li>
-          <li><a href="/logout" class="header-link">Logout</a></li>
+          <li><a href="/web/users/logout" class="header-link">Logout</a></li>
           <%}else{%>
           <li>
             <a href="/web/users/login" class="header-link" id="hl-/login"
@@ -73,7 +73,7 @@
             ><i class="fa-solid fa-circle-info"></i
           ></a>
         </li>
-        <%if(locals.loggedIn){%>
+        <%if(locals.user){%>
         <li>
           <a href="/web/users/dashboard" class="fixed-link" id="fl-/dashboard"
             ><i class="fa-solid fa-shield"></i

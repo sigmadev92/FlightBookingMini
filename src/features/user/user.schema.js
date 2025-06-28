@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,6 +43,13 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    bookings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking",
+        unique: true,
+      },
+    ],
   },
   { timestamps: true }
 );

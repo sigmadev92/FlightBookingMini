@@ -1,16 +1,10 @@
 import express from "express";
+import userWebRoutes from "../features/user/user.web.routes.js";
 
 const webRoutes = express.Router();
 
-webRoutes.get("/", (req, res) => {
-  res.send("hello");
-});
-webRoutes.get("/users/register", (req, res) => {
-  res.render("register");
-});
-webRoutes.get("/users/login", (req, res) => {
-  res.render("login");
-});
+webRoutes.use("/users", userWebRoutes);
+
 webRoutes.get("/offers", (req, res) => {
   res.render("offers");
 });

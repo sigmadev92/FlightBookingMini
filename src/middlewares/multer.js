@@ -2,10 +2,16 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    if (file.mimetype === "image") cb(null, "/public/uploads/images");
+    console.log(file.mimetype);
+    if (file.mimetype.split("/")[0] === "image")
+      cb(null, "public/uploads/images");
   },
   filename: function (req, file, cb) {
-    cb(null, file.filename);
+    console.log(file);
+    let filename =
+      new Date().toISOString().replaceAll(":", "_") +
+      file.originalname.replaceAll(" ", "_");
+    cb(null, filename);
   },
 });
 

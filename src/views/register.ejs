@@ -1,3 +1,123 @@
 <div id="hide-info">this info is hidden</div>
 
-<section id="register">Register page</section>
+<section id="register">
+  <%if(locals.errors){%>
+  <ul class="errors">
+    <% locals.errors.forEach(err=>{%>
+    <li><%=err%></li>
+    <%})%>
+  </ul>
+  <%}%>
+
+  <div class="form-container">
+    <div class="form-header">
+      <h3>User Registration</h3>
+    </div>
+    <form
+      action="/web/users/register"
+      method="post"
+      class="form-body"
+      enctype="multipart/form-data"
+    >
+      <div class="form-field">
+        <label>Register as </label>
+        <div class="radio-group">
+          <div class="radio-field">
+            <input type="radio" name="role" id="user" value="user" checked />
+            <label for="user">User</label>
+          </div>
+          <div class="radio-field">
+            <input type="radio" name="role" id="admin" value="admin" />
+            <label for="admin">Admin</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="John Doe"
+          required
+        />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="johndoe@somedomain.com"
+          required
+        />
+      </div>
+      <div style="margin: 0.4rem; font-weight: bold" id="testMail-div">
+        <label for="testMail">Is Test Mail (For development)</label>
+        <input type="checkbox" name="testMail" id="testMail" value="true" />
+      </div>
+      <div class="form-field pswrd-field">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="write you password"
+          required
+        />
+        <i class="fa-solid fa-lock" id="lock"></i>
+      </div>
+      <div class="form-field">
+        <label>Gender</label>
+        <div class="radio-group">
+          <div class="radio-field">
+            <input type="radio" name="gender" id="male" value="male" checked />
+            <label for="male">Male</label>
+          </div>
+          <div class="radio-field">
+            <input type="radio" name="gender" id="female" value="female" />
+            <label for="female">Female</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-field">
+        <input
+          type="file"
+          class="hide"
+          name="profilePicture"
+          id="file-pic"
+          accept="image/png, image/jpeg"
+          required
+        />
+        <label for="file-pic" class="file">Profile Picture</label>
+      </div>
+      <button class="btn btn-submit">Register</button>
+    </form>
+    <div class="form-footer">
+      <p>
+        Already have an account?<a href="/web/users/login" class="ff-link"
+          >Login</a
+        >
+      </p>
+      <a href="/web/users/forgot-password" class="ff-link f-pswrd"
+        >Forgot Password</a
+      >
+    </div>
+  </div>
+  <script>
+    if (location.origin !== "http://localhost:5000") {
+      document.getElementById("testMail-div").classList.add("hide");
+    }
+    const lock = document.getElementById("lock");
+    const passwordField = document.getElementById("password");
+    lock.addEventListener("click", () => {
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        lock.classList.replace("fa-lock", "fa-lock-open");
+      } else {
+        passwordField.type = "password";
+        lock.classList.replace("fa-lock-open", "fa-lock");
+      }
+    });
+  </script>
+</section>

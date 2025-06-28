@@ -1,3 +1,4 @@
+import { weekDays } from "../../middlewares/dateFunction.js";
 import FlightModel from "./flight.schema.js";
 
 export default class FlightRepository {
@@ -36,19 +37,33 @@ export default class FlightRepository {
   //params:{departureCity,arrivalCity,class,departureDate}
   async filterFlightsRepo(params) {
     const { departureCity, arrivalCity, seatClass, departureDate } = params;
+    console.log(params);
     const filter = {};
-    if (departureCity) {
-      filter.origin = departureCity;
+
+    if (!departureCity || !arrivalCity) {
+      return {
+        success: false,
+        error: {
+          statusCode: 400,
+          msg: "Departure and Arrival City are important",
+        },
+      };
     }
-    if (arrivalCity) {
-      filter.destination = arrivalCity;
+
+    if (
+      isNaN(new Date(departureDate)) ||
+      new Date() > new Date(departureDate)
+    ) {
+      return {
+        success: false,
+        error: { statusCode: 400, msg: "Invalid departure date" },
+      };
     }
     if (
-      seatClass !== undefined &&
-      ["business", "economy", "premiumEconomy", "first"].includes(seatClass)
+      !["business", "economy", "premiumEconomy", "first", "any"].includes(
+        seatClass
+      )
     ) {
-      filter[`seatCapacity.${seatClass}`] = { $gte: 1 };
-    } else {
       return {
         success: false,
         error: {
@@ -57,21 +72,15 @@ export default class FlightRepository {
         },
       };
     }
-    if (departureDate) {
-      if (
-        isNaN(new Date(departureDate)) ||
-        new Date() > new Date(departureDate)
-      ) {
-        return {
-          success: false,
-          error: { statusCode: 400, msg: "Invalid departure date" },
-        };
-      }
-      const day = new Date(departureDate).toString().split(" ")[0] + "day";
-      filter.daysOfOperation = day;
+    if (seatClass !== "any") {
+      filter[`seatCapacity.${seatClass}`] = { $gte: 1 };
     }
+    filter.origin = departureCity;
+    filter.destination = arrivalCity;
+    const daiyIndex = new Date(departureDate).getDay();
+    const dayname = weekDays[daiyIndex] + "day";
+    filter.daysOfOperation = dayname;
     console.log(filter);
-
     try {
       const flights = await FlightModel.find(filter);
       return {

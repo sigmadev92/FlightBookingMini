@@ -4,7 +4,7 @@ import expressEjsLayouts from "express-ejs-layouts";
 import bodyparser from "body-parser";
 import session from "express-session";
 import path from "path";
-import { APP_PORT } from "./src/config/env.js";
+import { APP_PORT, SESSION_SECRET } from "./src/config/env.js";
 import { connectUsigMongoose } from "./src/config/mongoose.js";
 import logger from "./src/middlewares/logger.js";
 import webRoutes from "./src/routes/web.js";
@@ -15,16 +15,16 @@ import authentication from "./src/middlewares/jwtAuth.js";
 const server = express();
 
 const PORT = APP_PORT || 5000;
-
+server.use(cookieParser());
 server.use(
   session({
-    secret: "flightbooking-mvc",
+    secret: SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
-    cookie: { secure: false },
+    cookie: { secure: false, maxAge: 1000 * 60 * 30 },
   })
 );
-server.use(cookieParser());
+
 server.use(authentication);
 // for parsing req.body
 // 1. Via JSON
@@ -37,8 +37,22 @@ server.set("views", path.join(path.resolve(), "src", "views"));
 server.use(expressEjsLayouts);
 server.use(logger);
 
-server.use("/web", webRoutes);
-server.use("/api", apiRoutes);
+server.use(
+  "/web",
+  (req, res, next) => {
+    req.requestType = "web";
+    next();
+  },
+  webRoutes
+);
+server.use(
+  "/api",
+  (req, res, next) => {
+    req.requestType = "api";
+    next();
+  },
+  apiRoutes
+);
 
 server.get("/", (req, res) => {
   return res.render("home");
@@ -49,5 +63,5 @@ server.use(undefinedRoute);
 server.use(handleError);
 server.listen(PORT, () => {
   connectUsigMongoose();
-  console.log(`Server running on https://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -24,6 +24,16 @@
   margin-bottom: 1rem;
 }
 
+.radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-field > input,
+.radio-field > label {
+  cursor: pointer;
+}
+
 .pswrd-field {
   position: relative;
 }
@@ -45,8 +55,7 @@ input {
   border: none;
   cursor: pointer;
   padding: 0.3rem 0.5rem;
-  display: block;
-  margin: auto;
+
   font-size: 1rem;
   border-radius: 0.3rem;
 }
@@ -54,6 +63,8 @@ input {
 .btn-submit {
   background-color: rgb(22, 11, 13);
   color: white;
+  margin: auto;
+  display: block;
 }
 .btn-submit:hover {
   background-color: blueviolet;
@@ -74,4 +85,27 @@ input {
 
 .ff-link:hover {
   text-decoration: 2px underline solid red;
+}
+
+.hide {
+  display: none;
+}
+
+label.file {
+  cursor: pointer;
+  background-color: blueviolet;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 0.5rem;
+  font-size: 12px;
+  border-radius: 0.3rem;
+  width: fit-content;
+}
+
+section#user-dbpage #frame-1 {
+  height: 400px;
+}
+section#user-dbpage .form-body {
+  max-width: 300px;
+  height: 500px;
 }

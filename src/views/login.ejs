@@ -3,18 +3,43 @@
 </div>
 
 <section id="login-page">
+  <% if (locals.errors) { %>
+  <ul class="errors">
+    <% locals.errors.forEach(err => { %>
+    <li><%= err %></li>
+    <% }) %>
+  </ul>
+  <% } else if(locals.success) { %>
+  <p><%= success %></p>
+  <% } %>
+
   <div class="form-container">
     <div class="form-header">
       <h3>User Login</h3>
     </div>
-    <form class="form-body" method="post" action="/web/users/login">
+    <form
+      class="form-body"
+      method="post"
+      action="/web/users/login"
+      enctype="application/x-www-form-urlencoded"
+    >
       <div class="form-field">
         <label for="email">Email</label>
-        <input type="email" id="email" placeholder="write you email" />
+        <input
+          type="email"
+          id="email"
+          placeholder="write you email"
+          name="email"
+        />
       </div>
       <div class="form-field pswrd-field">
         <label for="password">Password</label>
-        <input type="password" id="password" placeholder="write you password" />
+        <input
+          type="password"
+          id="password"
+          placeholder="write you password"
+          name="password"
+        />
         <i class="fa-solid fa-lock" id="lock"></i>
       </div>
       <button class="btn btn-submit">Login</button>
@@ -25,7 +50,9 @@
           >Register</a
         >
       </p>
-      <a href="/" class="ff-link f-pswrd">Forgot Password</a>
+      <a href="/web/users/forgot-password" class="ff-link f-pswrd"
+        >Forgot Password</a
+      >
     </div>
   </div>
 </section>

@@ -11,27 +11,51 @@ export default class UserRepository {
       await newUser.save();
       const userObject = newUser.toObject();
       delete userObject.password;
-      return userObject;
+      return {
+        success: true,
+        user: userObject,
+      };
     } catch (error) {
-      throw new CustomError(400, error.message);
+      return {
+        success: false,
+        error: {
+          statusCode: error.name === "MongooseError" ? 400 : 500,
+          message: error.message,
+        },
+      };
     }
   }
 
   async loginRepo(_userdata) {
     const { email, password } = _userdata;
-    if (!email || !password) {
-      throw new CustomError(400, "Invalid email or password");
-    }
 
     const user = await UserModel.findOne({ email });
     if (!user) {
-      throw new CustomError(400, "User Not found");
+      return {
+        success: false,
+        error: {
+          statusCode: 400,
+          message: "Email not found",
+        },
+      };
     }
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
-      throw new CustomError(400, "Wrong Credentials");
+      return {
+        success: false,
+        error: {
+          statusCode: 400,
+          message: "Wrong credentials",
+        },
+      };
     }
-    return user;
+
+    const userObj = user.toObject();
+    delete userObj.password;
+    return {
+      success: true,
+      user: userObj,
+    };
   }
 
   async updateProfileRepo(_userID, _updateData) {

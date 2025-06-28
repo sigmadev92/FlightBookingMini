@@ -7,7 +7,7 @@ export default class FlightController {
   constructor() {
     this.flightRepository = new FlightRepository();
   }
-  async createFlight(req, res, next) {
+  createFlight = async (req, res, next) => {
     try {
       if (req.userData.role === "user") {
         throw new CustomError(400, "You are not allowed to create Flights");
@@ -18,9 +18,9 @@ export default class FlightController {
       if (response.success) {
         if (!req.userData.testUser) {
           sendtheMail({
-            receiver: admin.email,
+            receiver: req.userData.userMail,
             subject: "Flight Listed Successfully",
-            html: mailOnCreatingFlight,
+            html: mailOnCreatingFlight(response.flight),
           });
         }
 
@@ -38,9 +38,9 @@ export default class FlightController {
       console.log(error);
       next(error);
     }
-  }
+  };
 
-  async searchFlights(req, res, next) {
+  searchFlights = async (req, res, next) => {
     const searchParams = req.query;
     try {
       const result = await this.flightRepository.filterFlightsRepo(
@@ -53,12 +53,12 @@ export default class FlightController {
         });
       }
       return res
-        .send(result.error.statusCode)
+        .status(result.error.statusCode)
         .send({ success: false, message: result.error.msg });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   async getFlightInfo(req, res, next) {
     const flightId = req.params._id;

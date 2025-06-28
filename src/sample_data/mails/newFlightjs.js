@@ -1,14 +1,14 @@
 export default function mailOnCreatingFlight(flightObj) {
   const {
-    name,
     flightNumber,
     airline,
     origin,
+    destination,
     daysOfOperation,
     category,
     status,
   } = flightObj;
-  const stringMessage = `<b>Dear ${name}</b>
+  const stringMessage = `<b>Dear Admin</b>
 
 <p>
 We’re excited to let you know that your flight ${flightNumber} with ${airline} has been successfully registered on our website AirNinja.

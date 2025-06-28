@@ -14,7 +14,18 @@ export default class UserController {
       const hashedPassword = await bcrypt.hash(password, 10);
       req.body.password = hashedPassword;
       const response = await this.UserRepository.signupRepo(req.body);
+      if (!response.success) {
+        if (req.requestType === "web") {
+          return res.render("register", { errors: [response.error.message] });
+        }
+        return res
+          .status(response.error.statusCode)
+          .send(response.error.message);
+      }
       if (!testMail) {
+        //it means the mail is valid and we have to send the mail
+        //Sending different type of messages to user and admin
+        // sedning email asynchronously
         if (role === "user") {
           sendtheMail({
             receiver: email,
@@ -32,6 +43,12 @@ export default class UserController {
         }
       }
 
+      if (req.requestType === "web") {
+        return res.render("login", {
+          success: "User Registeration Successful. Please Login to continue",
+        });
+      }
+
       return res.status(201).send({
         success: true,
         message: `${role} Registration Successful`,
@@ -45,20 +62,36 @@ export default class UserController {
   login = async (req, res, next) => {
     try {
       const response = await this.UserRepository.loginRepo(req.body);
-      const token = jwt.sign(
-        {
-          userID: response._id,
-          testUser: response.testMail,
-          userRole: response.role,
-        },
-        JWT_SECRET
-      );
-      res.cookie("air_ninjaToken", token);
-      return res.status(200).send({
-        success: true,
-        message: "Logged In successfully",
-        air_ninjaToken: token,
-      });
+      console.log(response);
+      if (response.success) {
+        const token = jwt.sign(
+          {
+            userID: response.user._id,
+            testUser: response.user.testMail,
+            userRole: response.user.role,
+            userMail: response.user.email,
+          },
+          JWT_SECRET
+        );
+        res.cookie("air_ninjaToken", token);
+        if (req.requestType === "web") {
+          req.session.user = response.user;
+          req.session.save();
+          console.log("logged in successfully");
+          console.log(response.user);
+          return res.redirect("/web/users/dashboard");
+        }
+        return res.status(200).send({
+          success: true,
+          message: "Logged In successfully",
+          air_ninjaToken: token,
+        });
+      }
+
+      if (req.requestType === "web") {
+        return res.render("login", { errors: [response.error.message] });
+      }
+      return res.status(response.error.statusCode).send(response.error);
     } catch (error) {
       next(error);
     }

@@ -23,8 +23,7 @@ export default class FlightRepository {
       };
     } catch (error) {
       console.log(error.name);
-      console.log(error);
-      console.log(_newData);
+      console.log(error.message);
       return {
         success: false,
         error: {

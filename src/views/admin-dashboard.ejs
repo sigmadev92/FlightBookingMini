@@ -1,5 +1,47 @@
-<div id="hide-info"></div>
+<div id="hide-info">
+  <span id="tab"><%= locals.tab || "tab-1"%></span>
+</div>
 
 <section id="admin-dbpage">
-  <h2>Admin Dashboard</h2>
+  <div id="overlay">
+    <h2>Admin Dashboard</h2>
+    <div id="panel">
+      <div id="tabs">
+        <button class="btn selected" id="tab-1">New Flight</button>
+        <button class="btn" id="tab-2">Your Flights</button>
+        <button class="btn" id="tab-3">Analytics</button>
+      </div>
+      <div id="frames">
+        <% if (locals.errors) { %>
+        <ul class="errors">
+          <% locals.errors.forEach(err => { %>
+          <li><%= err %></li>
+          <% }) %>
+        </ul>
+        <% } else if(locals.success) { %>
+        <p><%= success %></p>
+        <% } %>
+        <div id="frame-1"><%- include('partials/adminDb/newFlight')%></div>
+        <div class="hide" id="frame-2">2</div>
+        <div class="hide" id="frame-3">3</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    let currentTab = document.getElementById("tab").textContent;
+    document.getElementById("tabs").addEventListener("click", (e) => {
+      console.log(currentTab);
+      if (e.target.id.split("-")[0] !== "tab") return;
+      if (e.target.id === currentTab) return;
+      document.getElementById(e.target.id).classList.add("selected");
+      document.getElementById(currentTab).classList.remove("selected");
+      document
+        .getElementById(`frame-${e.target.id.split("-")[1]}`)
+        .classList.remove("hide");
+      document
+        .getElementById(`frame-${currentTab.split("-")[1]}`)
+        .classList.add("hide");
+      currentTab = e.target.id;
+    });
+  </script>
 </section>

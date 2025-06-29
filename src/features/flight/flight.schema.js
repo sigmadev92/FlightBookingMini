@@ -79,7 +79,10 @@ const flightSchema = new mongoose.Schema({
       return this.category === "connecting";
     },
   },
-
+  flightImage: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

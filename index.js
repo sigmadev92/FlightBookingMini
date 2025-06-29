@@ -29,7 +29,7 @@ server.use(authentication);
 // for parsing req.body
 // 1. Via JSON
 server.use(express.json());
-server.use(bodyparser.urlencoded());
+server.use(bodyparser.urlencoded({ extended: true }));
 
 server.use(express.static("public"));
 server.set("view engine", "ejs");

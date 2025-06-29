@@ -1,0 +1,226 @@
+<div
+  class="form-container"
+  style="background-color: rgb(224, 229, 234); height: 400px"
+>
+  <div class="form-info"></div>
+  <div id="flight-error"></div>
+  <form class="form-body" style="max-height: 100%" id="new-flight-form">
+    <div>
+      <input type="hidden" name="category" value="direct" />
+      <label for="isFirst">Is this the First Flight</label>
+      <input type="checkbox" name="isFirst" id="isFirst" value="true" checked />
+    </div>
+    <div class="form-field hide" id="returningFlight-div">
+      <label for="returningFlight">Returning Flight ID</label>
+      <input type="text" name="returningFlight" />
+    </div>
+    <div class="form-field">
+      <label for="flightNumber">Flight Number</label>
+      <input type="text" name="flightNumber" id="flightNumber" />
+    </div>
+    <div class="form-field">
+      <label for="airline">Airline Name</label>
+      <select
+        name="airline"
+        id="airline"
+        style="
+          padding: 0.3rem;
+          background-color: blueviolet;
+          color: white;
+          border: none;
+          border-radius: 0.3rem;
+          cursor: pointer;
+        "
+      >
+        <option value="Lufthansa">Lufthansa</option>
+        <option value="Air India" selected>Air India</option>
+        <option value="Qatar Airways">Qatar Airways</option>
+        <option value="Emirates">Emirates</option>
+        <option value="Singapore">Singapore</option>
+        <option value="Quantas">Quantas</option>
+      </select>
+    </div>
+    <fieldset
+      style="padding: 1rem; box-sizing: border-box; margin-bottom: 0.5rem"
+    >
+      <legend>Schedule</legend>
+
+      <div class="form-field">
+        <input type="text" name="origin" placeholder="From" required />
+        <input type="text" name="destination" placeholder="To" required />
+        <input
+          type="number"
+          name="range"
+          required
+          placeholder="Total Distance"
+        />
+        <input
+          type="number"
+          name="durationMinutes"
+          placeholder="Duration Minutes"
+          required
+        />
+      </div>
+      <div class="form-field">
+        <label>Days of Operation</label>
+        <div class="radio-group" id="week-days"></div>
+      </div>
+    </fieldset>
+    <div class="form-field">
+      <label>Seat Description</label>
+      <table style="box-sizing: border-box; width: 90%; font-size: 12px">
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>installed Seats</th>
+            <th>Price ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Economy</th>
+            <td>
+              <input
+                type="number"
+                min="1"
+                name="seatCapacity.economy"
+                placeholder="1"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                min="50"
+                name="price.economy"
+                placeholder="50"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Premium Economy</th>
+            <td>
+              <input
+                type="number"
+                min="0"
+                name="seatCapacity.premiumEconomy"
+                placeholder="0"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                min="250"
+                name="price.premiumEconomy"
+                placeholder="250"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Business</th>
+            <td>
+              <input
+                type="number"
+                min="0"
+                name="seatCapacity.business"
+                placeholder="0"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                min="500"
+                name="price.business"
+                placeholder="500"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>First</th>
+            <td>
+              <input
+                type="number"
+                min="0"
+                name="seatCapacity.first"
+                placeholder="0"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                min="1000"
+                name="price.first"
+                placeholder="1000"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-field">
+      <label>Upload profile Pic</label>
+      <input
+        type="file"
+        class="hide"
+        name="flightImage"
+        id="flightImage"
+        required
+      />
+      <label for="flightImage" class="file">Choose from Gallery</label>
+    </div>
+    <button class="btn btn-submit">Submit</button>
+    <button type="reset" class="btn">Reset</button>
+  </form>
+  <script>
+    const formInfo = document.getElementById("form-info");
+    const formFlight = document.getElementById("new-flight-form");
+    document.addEventListener("load", () => {
+      formFlight.reset();
+    });
+    const isFirst = document.getElementById("isFirst");
+    const returningFlightDiv = document.getElementById("returningFlight-div");
+    isFirst.checked = true;
+    isFirst.addEventListener("change", () => {
+      returningFlightDiv.classList.toggle("hide");
+    });
+    const weekDays = document.getElementById("week-days");
+
+    [
+      "Sunday",
+      "Monday",
+      "TuesDay",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ].forEach((day) => {
+      const input = document.createElement("input");
+      const label = document.createElement("label");
+      const containerDiv = document.createElement("div");
+      containerDiv.classList.add("radio-field");
+      input.name = "daysOfOperation";
+      input.type = "checkbox";
+      input.value = day;
+      input.id = day;
+      label.htmlFor = day;
+      label.textContent = day;
+      containerDiv.append(input, label);
+      weekDays.appendChild(containerDiv);
+    });
+    formFlight.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(formFlight);
+      const response = await fetch("/web/flights/", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        formInfo.classList.add("success");
+        formInfo.textContent = data.errors[0];
+      } else {
+        formInfo.classList.add("failure");
+      }
+    });
+  </script>
+</div>

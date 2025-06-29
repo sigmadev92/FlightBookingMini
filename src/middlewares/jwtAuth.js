@@ -2,11 +2,13 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/env.js";
 
 export default function authentication(req, res, next) {
-  console.log(" Arrived at jwt auth middleware");
+  if (req.url.slice(1, 4) !== "css") {
+    console.log(" Arrived at jwt auth middleware", req.url);
+  }
+
   const token = req.cookies.air_ninjaToken;
 
   res.locals.user = req.session.user || null;
-
   if (token) {
     const result = jwt.verify(token, JWT_SECRET);
     if (result) {

@@ -5,9 +5,18 @@ const flightController = new FlightController();
 const flightRoutes = Router();
 
 //create a new flight. Only a admin can create.
-flightRoutes.post("/", protectSensitive, (req, res, next) => {
-  flightController.createFlight(req, res, next);
-});
+flightRoutes.post(
+  "/",
+  (req, res, next) => {
+    console.log("gg");
+    next();
+  },
+  protectSensitive,
+  (req, res, next) => {
+    console.log(req.body);
+    flightController.createFlight(req, res, next);
+  }
+);
 
 //search query
 flightRoutes.get("/", protectSensitive, (req, res, next) => {

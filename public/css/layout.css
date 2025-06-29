@@ -154,6 +154,32 @@ ul#bottom > li:hover {
   background-color: aliceblue;
 }
 
+section#admin-dbpage {
+  background-image: url("https://cdn.pixabay.com/photo/2018/07/31/14/08/plane-3575162_1280.png");
+  height: 100%;
+  padding: 0;
+}
+section#admin-dbpage #overlay {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.654);
+}
+section#admin-dbpage h2 {
+  background-color: black;
+  color: white;
+  font-size: 12px;
+  padding: 0.3rem 1rem;
+}
+section#admin-dbpage #tabs {
+  padding: 0.3rem 1rem;
+}
+section#admin-dbpage #tabs .btn {
+  font-size: 12px;
+}
+.selected {
+  background-color: black;
+  color: white;
+}
 @media screen and (max-width: 500px) {
   header {
     justify-content: center;

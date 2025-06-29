@@ -8,10 +8,11 @@ export default class FlightController {
     this.flightRepository = new FlightRepository();
   }
   createFlight = async (req, res, next) => {
+    if (req.userData.role === "user") {
+      throw new CustomError(400, "You are not allowed to create Flights");
+    }
+    console.log(req.body);
     try {
-      if (req.userData.role === "user") {
-        throw new CustomError(400, "You are not allowed to create Flights");
-      }
       const data = req.body;
       data.createdBy = req.userData.userID;
       const response = await this.flightRepository.createFlightRepo(data);
@@ -24,18 +25,10 @@ export default class FlightController {
           });
         }
 
-        return res.status(201).send({
-          success: true,
-          message: response.message,
-          flight: response.flight,
-        });
-      } else {
-        return res
-          .status(response.error.statusCode)
-          .send({ success: false, message: response.error.message });
-      }
+        return res.status(201).json(response);
+      } else return res.status(response.error.statusCode).send(response);
     } catch (error) {
-      console.log(error);
+      console.log("The error coming in createFlight Controller");
       next(error);
     }
   };

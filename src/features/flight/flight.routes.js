@@ -1,8 +1,11 @@
 import { Router } from "express";
 import FlightController from "./flight.controller.js";
 import { protectSensitive } from "../../middlewares/jwtAuth.js";
+import multerStorage from "../../middlewares/multer.js";
 const flightController = new FlightController();
 const flightRoutes = Router();
+
+//form for create a newflight
 
 //create a new flight. Only a admin can create.
 flightRoutes.post(
@@ -12,6 +15,7 @@ flightRoutes.post(
     next();
   },
   protectSensitive,
+  multerStorage.single("flightImage"),
   (req, res, next) => {
     console.log(req.body);
     flightController.createFlight(req, res, next);

@@ -24,9 +24,14 @@ export default class FlightController {
             html: mailOnCreatingFlight(response.flight),
           });
         }
+        if (req.requestType === "web") {
+          return res.render("returnFlight", response);
+        }
 
         return res.status(201).json(response);
-      } else return res.status(response.error.statusCode).send(response);
+      }
+
+      return res.status(response.error.statusCode).send(response);
     } catch (error) {
       console.log("The error coming in createFlight Controller");
       next(error);

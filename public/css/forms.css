@@ -103,6 +103,14 @@ label.file {
   width: fit-content;
 }
 
+label.file:hover {
+  background-color: rgb(18, 49, 188);
+}
+
+#image-info {
+  font-size: 10px;
+}
+
 section#user-dbpage #frame-1 {
   height: 400px;
 }

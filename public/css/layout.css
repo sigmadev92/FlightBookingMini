@@ -176,6 +176,10 @@ section#admin-dbpage #tabs {
 section#admin-dbpage #tabs .btn {
   font-size: 12px;
 }
+
+section#new-flight {
+  background-image: url("https://www.lufthansa.com/content/dam/lh/images/pixels_variations/c-31321474-3918114.jpg.transform/lh-dcep-transform-width-1440/img.jpg");
+}
 .selected {
   background-color: black;
   color: white;

@@ -1,0 +1,221 @@
+<section id="return-flight">
+  <div id="hide-info">
+    <span id="airline-hide"><%= flight.airline%></span>
+    <span id="daysOfOp"><%= flight.daysOfOperation.toString()%></span>
+  </div>
+  <div
+    class="form-container"
+    style="
+      background-color: rgba(0, 0, 0, 0.568);
+      backdrop-filter: blur(5px);
+      height: 400px;
+      color: white;
+    "
+  >
+    <div id="form-info">
+      <p>Flight Listed successfully. Please fill the form for return flight</p>
+    </div>
+    <form
+      class="form-body"
+      style="max-height: 100%"
+      id="new-flight-form"
+      action="/web/flights/"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <div>
+        <input type="hidden" name="isFirst" id="isFirst" value="false" />
+      </div>
+      <div class="form-field hide" id="returningFlight-div">
+        <label for="returningFlight">Returning Flight ID</label>
+        <input type="text" name="returningFlight" value="<%= flight._id%>" />
+      </div>
+      <div class="form-field">
+        <label for="flightNumber">Flight Number</label>
+        <input
+          type="text"
+          name="flightNumber"
+          id="flightNumber"
+          placeholder="eg AI3442"
+        />
+      </div>
+      <div class="form-field">
+        <label for="airline">Airline Name</label>
+        <input
+          type="text"
+          readonly
+          name="airline"
+          value="<%= flight.airline%>"
+        />
+      </div>
+      <fieldset
+        style="padding: 1rem; box-sizing: border-box; margin-bottom: 0.5rem"
+      >
+        <legend>Schedule</legend>
+
+        <div class="form-field">
+          <input
+            type="text"
+            name="origin"
+            value="<%= flight.destination%>"
+            readonly
+          />
+          <input
+            type="text"
+            name="destination"
+            value="<%= flight.origin%>"
+            readonly
+          />
+          <input
+            type="number"
+            name="range"
+            readonly
+            value="<%= flight.range%>"
+          />
+          <input
+            type="number"
+            name="durationMinutes"
+            readonly
+            value="<%= flight.durationMinutes%>"
+          />
+        </div>
+        <div class="form-field">
+          <label>Days of Operation</label>
+          <div class="radio-group" id="week-days"></div>
+        </div>
+      </fieldset>
+      <div class="form-field">
+        <label>Seat Description</label>
+        <table style="box-sizing: border-box; width: 90%; font-size: 12px">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>installed Seats</th>
+              <th>Price ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Economy</th>
+              <td>
+                <input
+                  type="number"
+                  name="seatCapacity.economy"
+                  value="<%= flight.seatCapacity.economy%>"
+                  readonly
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="price.economy"
+                  value="<%= flight.price.economy%>"
+                  readonly
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Premium Economy</th>
+              <td>
+                <input
+                  type="number"
+                  name="seatCapacity.premiumEconomy"
+                  value="<%= flight.seatCapacity.premiumEconomy%>"
+                  readonly
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="price.premiumEconomy"
+                  value="<%= flight.price.premiumEconomy%>"
+                  readonly
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Business</th>
+              <td>
+                <input
+                  type="number"
+                  readonly
+                  name="seatCapacity.business"
+                  value="<%= flight.seatCapacity.business %>"
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="price.business"
+                  readonly
+                  value="<%= flight.price.business %>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>First</th>
+              <td>
+                <input
+                  type="number"
+                  name="seatCapacity.first"
+                  readonly
+                  value="<%= flight.seatCapacity.first %>"
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="price.first"
+                  readonly
+                  value="<%= flight.price.first %>"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="form-field">
+        <label>Flight Image </label>
+        <img
+          src="<%= `http://localhost:5000/uploads/images/${flight.flightImage}` %>"
+          alt=""
+          width="300px"
+        />
+      </div>
+      <button class="btn btn-submit">Submit</button>
+      <button type="reset" class="btn">Reset</button>
+    </form>
+    <script>
+      const formInfo = document.getElementById("form-info");
+      const days = document.getElementById("daysOfOp").textContent.split(",");
+      const formFlight = document.getElementById("new-flight-form");
+
+      const weekDays = document.getElementById("week-days");
+
+      [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ].forEach((day) => {
+        const input = document.createElement("input");
+        const label = document.createElement("label");
+        const containerDiv = document.createElement("div");
+        containerDiv.classList.add("radio-field");
+        input.name = "daysOfOperation";
+        input.type = "checkbox";
+        input.value = day;
+        input.id = day;
+        input.checked = days.includes(day);
+        input.disabled = input.checked;
+        label.htmlFor = day;
+        label.textContent = day;
+        containerDiv.append(input, label);
+        weekDays.appendChild(containerDiv);
+      });
+    </script>
+  </div>
+</section>

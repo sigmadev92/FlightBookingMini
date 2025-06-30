@@ -45,6 +45,10 @@ userWebRoutes.get("/forgot-password", preventExposed, (req, res) => {
 
 userWebRoutes.post(
   "/register",
+  (req, res, next) => {
+    req.image_type = "user-profile-pic";
+    next();
+  },
   multerStorage.single("profilePicture"),
   validate_user_reg,
   (req, res, next) => {

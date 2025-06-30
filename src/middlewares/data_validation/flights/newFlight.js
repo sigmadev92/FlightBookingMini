@@ -24,10 +24,10 @@ export default function validate_new_flight(req, res, next) {
   }
 
   if (req.body.isFirst) {
-    req.body.returningFlight = null;
+    delete req.body.returningFlight;
   }
   if (!req.body.isFirst && !req.body.returningFlight) {
-    errors.push("Returning Flie ID is required");
+    errors.push("Returning Flight ID is required");
   }
   if (errors.length > 0) {
     if (req.requestType === "web")

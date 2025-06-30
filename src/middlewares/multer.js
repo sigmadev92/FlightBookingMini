@@ -8,9 +8,14 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     console.log(file);
+    const arr = file.originalname.split(".");
+    const ext = arr[arr.length - 1];
     let filename =
+      req.image_type +
+      "-" +
       new Date().toISOString().replaceAll(":", "_") +
-      file.originalname.replaceAll(" ", "_");
+      "." +
+      ext;
     cb(null, filename);
   },
 });
